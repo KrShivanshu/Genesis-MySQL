@@ -1,0 +1,178 @@
+insert into Productions values
+(7683,'Mythri Movie Makers', 'Hyderabad',2015,'Naveen Yerneni'),
+(1854,'Junglee Pictures','Mumbai',2014,'Vineeth Jain'),
+(2341,'CRM','Bangalore',2017,'Maohar'),
+(1111,'STP','Chennai',2018,'Sree');
+
+delete from movie where movieid=201;
+
+insert into movie values
+(201, 'bahubali','prabhas','tamannah','2015-11-10','telegu',21,'drama fantasy',9091),
+(501,'2.0','rajnikanth','amy','2018-11-29','tamil',20,'sceintific',8892),
+(577,'aval','sidharth','andrea','2017-11-13','tamil',14,'horror',1899),
+(101,'hoilday','akshay kumar','sonakshi','2014-06-06','hindi',15,'crime thriller',1010),
+(151,'zero','shah rukh','katrina kaif','2018-12-21','hindi',16,'scientific',1988),
+(131,	'Padmavaat',	'Shahid Kapoor',	'Deepika Padukone',	'2018-01-25',	'Hindi',	21,	'Drama Epic', 1899),
+(146,	'Andhadhun',	'Ayushmann',	'Radika Apte',	'2018-10-05',	'Hindi',	16,	'Crime Thriller',	1899),
+(231,	'Bharath Ane nenu',	'Mahesh Babu',	'Kiara',	'2018-04-10','Telugu',	15,	'Thriller',	7882),
+(244,	'Gruham','	Siddharth',	'Andrea',	'2018-07-08','Telugu',	14,	'Horror',	1899),
+(337,	'K G F chapter 1','Yash',	'Srinithi Shetty',	'2018-12-21',	'Kannada',	21,	'Action Thriller',	6773),
+(224,	'Rangasthalam',	'Ram Charan',	'Samatha',	'2018-03-13','Telugu',	17	,'Drama Period',	7882),
+(136,'Badhaai Ho',	'Ayushmann',	'Neena',	'2018-10-18',	'Hindi',	14,	'Drama Comedy',	1854),
+(441,	'The Villain','Sudeep',	'Amy', 	'2018-10-18','Kannada',	16,	'Drama',	2341),
+(206,	'Maryada Ramanna',	'Sunil',	'Saloni',	'2010-10-27',	'Telugu',	19,	'Drama',	9091),
+(211,	'Khaidi No. 150',	'chiranjeevi',	'Kajal',	'2017-01-11'	,'Telugu',	20,	'Drama Thriller'	,8892),
+(188,	'Rangoon',	'Saif Ali Khan',	'Kangana',	'2017-02-12',	'Hindi',	15,	'Drama',	1899),
+(189	,'The House Next Door',	'Siddharth',	'Andrea',	'2017-11-10',	'Hindi',	14,	'Horror',	1899),
+(267,	'Anaganaga O Dheerudu',	'Siddharth',	'Shruthi',	'2014-01-11',	'Telugu',	16,	'Fantasy',	9091);
+
+### Display the name of movies, movie type is starts with Drama
+select moviename from movie where substring(moivetype,1,5) = 'drama' or 'Drama';
++-----------------+
+| moviename       |
++-----------------+
+| Padmavaat       |
+| Badhaai Ho      |
+| Rangoon         |
+| bahubali        |
+| Maryada Ramanna |
+| Khaidi No. 150  |
+| Rangasthalam    |
+| The Villain     |
++-----------------+
+
+### Display the movies acted by actor Ayushmann
+select moviename from movie where heroname = 'Ayushmann';
++------------+
+| moviename  |
++------------+
+| Badhaai Ho |
+| Andhadhun  |
++------------+
+
+### Display the count of movies, having length above 18.
+select count(moviename) from movie where length >18;
++------------------+
+| count(moviename) |
++------------------+
+|                6 |
++------------------+
+
+### Display the movie having minimum length.
+select moviename from movie where length =(select min(length) from movie);
++---------------------+
+| moviename           |
++---------------------+
+| Badhaai Ho          |
+| The House Next Door |
+| Gruham              |
+| aval                |
++---------------------+
+
+
+
+### Subquery ###
+_______SELECT______
+select productionname, address from productions
+where productionid IN (select productionid from movie where language = 'hindi' || 'Hindi');
++----------------------------+---------+
+| productionname             | address |
++----------------------------+---------+
+| Hari Om Entertainment      | Mumbai  |
+| Viacom 18 Studios          | Mumbai  |
+| Junglee Pictures           | Mumbai  |
+| Red Chillies Entertainment | Mumbai  |
++----------------------------+---------+
+
+
+select productionid, productionname, dateofstarted from productions
+where productionid IN (select productionid from movie where releasedate > '2018-01-01');
++--------------+----------------------------+---------------+
+| productionid | productionname             | dateofstarted |
++--------------+----------------------------+---------------+
+|         1854 | Junglee Pictures           |          2014 |
+|         1899 | Viacom 18 Studios          |          2008 |
+|         1988 | Red Chillies Entertainment |          2003 |
+|         2341 | CRM                        |          2017 |
+|         6773 | Hombale Films              |          1995 |
+|         7882 | DVV Entertainments         |          1993 |
+|         8892 | Lyca                       |          2014 |
++--------------+----------------------------+---------------+
+
+
+_______INSERT_______
+### Create newtable with same structure of oldtable
+create table tamil_movie like movie; 
+
+### insert inot newtable using oldtable Subquery
+insert into tamil_movie
+select * from movie
+where language = 'tamil';
+
+### Display table tamil_movie
+select * from tamil_movie;
++---------+-----------+------------+---------+-------------+----------+--------+------------+--------------+
+| movieid | moviename | heroname   | heroine | releasedate | language | length | moivetype  | Productionid |
++---------+-----------+------------+---------+-------------+----------+--------+------------+--------------+
+|     501 | 2.0       | rajnikanth | amy     | 2018-11-29  | tamil    |     20 | sceintific |         8892 |
+|     577 | aval      | sidharth   | andrea  | 2017-11-13  | tamil    |     14 | horror     |         1899 |
++---------+-----------+------------+---------+-------------+----------+--------+------------+--------------+
+
+### Create Viacom 18 Studios table
+create table 1899_movie like movie;
+
+### insert all 'Viacom 18 Studios' movies in 1899_movie table
+insert into 1899_movie
+select * from movie
+where productionid = 1899;
+
+### Display table 1899_movie
+select * from 1899_movie;
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+| movieid | moviename           | heroname      | heroine          | releasedate | language | length | moivetype      | Productionid |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+|     131 | Padmavaat           | Shahid Kapoor | Deepika Padukone | 2018-01-25  | Hindi    |     21 | Drama Epic     |         1899 |
+|     146 | Andhadhun           | Ayushmann     | Radika Apte      | 2018-10-05  | Hindi    |     16 | Crime Thriller |         1899 |
+|     188 | Rangoon             | Saif Ali Khan | Kangana          | 2017-02-12  | Hindi    |     15 | Drama          |         1899 |
+|     189 | The House Next Door | Siddharth     | Andrea           | 2017-11-10  | Hindi    |     14 | Horror         |         1899 |
+|     244 | Gruham              | Siddharth     | Andrea           | 2018-07-08  | Telugu   |     14 | Horror         |         1899 |
+|     577 | aval                | sidharth      | andrea           | 2017-11-13  | tamil    |     14 | horror         |         1899 |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+
+_______UPDATE_______
+### Create movie backup table (movie_bkp)
+create table movie_bkp like movie;
+
+### Insert all data of movie into movie_bkp table
+insert into movie_bkp
+select * from movie;
+
+### Update movie_bkp
+UPDATE movie_bkp
+SET releasedate='2008-01-01'
+WHERE productionid IN (select productionid from productions where dateofstarted = '2008');
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+| movieid | moviename           | heroname      | heroine          | releasedate | language | length | moivetype      | Productionid |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+|     101 | hoilday             | akshay kumar  | sonakshi         | 2008-01-01  | hindi    |     15 | crime thriller |         1010 |
+|     131 | Padmavaat           | Shahid Kapoor | Deepika Padukone | 2008-01-01  | Hindi    |     21 | Drama Epic     |         1899 |
+|     146 | Andhadhun           | Ayushmann     | Radika Apte      | 2008-01-01  | Hindi    |     16 | Crime Thriller |         1899 |
+|     188 | Rangoon             | Saif Ali Khan | Kangana          | 2008-01-01  | Hindi    |     15 | Drama          |         1899 |
+|     189 | The House Next Door | Siddharth     | Andrea           | 2008-01-01  | Hindi    |     14 | Horror         |         1899 |
+|     244 | Gruham              | Siddharth     | Andrea           | 2008-01-01  | Telugu   |     14 | Horror         |         1899 |
+|     577 | aval                | sidharth      | andrea           | 2008-01-01  | tamil    |     14 | horror         |         1899 |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
