@@ -1,0 +1,141 @@
+### Display the name of movies, movie type is starts with Drama
+select moviename from movie where substring(moivetype,1,5) = 'drama' or 'Drama';
++-----------------+
+| moviename       |
++-----------------+
+| Padmavaat       |
+| Badhaai Ho      |
+| Rangoon         |
+| bahubali        |
+| Maryada Ramanna |
+| Khaidi No. 150  |
+| Rangasthalam    |
+| The Villain     |
++-----------------+
+
+### Display the movies acted by actor Ayushmann
+select moviename from movie where heroname = 'Ayushmann';
++------------+
+| moviename  |
++------------+
+| Badhaai Ho |
+| Andhadhun  |
++------------+
+
+### Display the count of movies, having length above 18.
+select count(moviename) from movie where length >18;
++------------------+
+| count(moviename) |
++------------------+
+|                6 |
++------------------+
+
+### Display the movie having minimum length.
+select moviename from movie where length =(select min(length) from movie);
++---------------------+
+| moviename           |
++---------------------+
+| Badhaai Ho          |
+| The House Next Door |
+| Gruham              |
+| aval                |
++---------------------+
+
+### Display all the details of movie, the language that first name starts with ‘T’
+select * from movie where substr(language,1,1) = 'T' or 't';
++---------+----------------------+-------------+----------+-------------+----------+--------+----------------+--------------+
+| movieid | moviename            | heroname    | heroine  | releasedate | language | length | moivetype      | Productionid |
++---------+----------------------+-------------+----------+-------------+----------+--------+----------------+--------------+
+|     201 | bahubali             | prabhas     | tamannah | 2015-11-10  | telegu   |     21 | drama fantasy  |         9091 |
+|     206 | Maryada Ramanna      | Sunil       | Saloni   | 2010-10-27  | Telugu   |     19 | Drama          |         9091 |
+|     211 | Khaidi No. 150       | chiranjeevi | Kajal    | 2017-01-11  | Telugu   |     20 | Drama Thriller |         8892 |
+|     224 | Rangasthalam         | Ram Charan  | Samatha  | 2018-03-13  | Telugu   |     17 | Drama Period   |         7882 |
+|     231 | Bharath Ane nenu     | Mahesh Babu | Kiara    | 2018-04-10  | Telugu   |     15 | Thriller       |         7882 |
+|     244 | Gruham               | Siddharth   | Andrea   | 2018-07-08  | Telugu   |     14 | Horror         |         1899 |
+|     267 | Anaganaga O Dheerudu | Siddharth   | Shruthi  | 2014-01-11  | Telugu   |     16 | Fantasy        |         9091 |
+|     501 | 2.0                  | rajnikanth  | amy      | 2018-11-29  | tamil    |     20 | sceintific     |         8892 |
+|     577 | aval                 | sidharth    | andrea   | 2017-11-13  | tamil    |     14 | horror         |         1899 |
++---------+----------------------+-------------+----------+-------------+----------+--------+----------------+--------------+
+
+### Display the movie name, hero name, heroine name whose having maximum length.
+select moviename, heroname, heroine from movie where length = (select max(length) from movie);
++-----------------+---------------+------------------+
+| moviename       | heroname      | heroine          |
++-----------------+---------------+------------------+
+| Padmavaat       | Shahid Kapoor | Deepika Padukone |
+| bahubali        | prabhas       | tamannah         |
+| K G F chapter 1 | Yash          | Srinithi Shetty  |
++-----------------+---------------+------------------+
+
+### Display the movie name, hero name, heroine name the movie released after 15 march 2018.
+select moviename, heroname, heroine from movie where releasedate > '2018-03-15';
++------------------+-------------+-----------------+
+| moviename        | heroname    | heroine         |
++------------------+-------------+-----------------+
+| Badhaai Ho       | Ayushmann   | Neena           |
+| Andhadhun        | Ayushmann   | Radika Apte     |
+| zero             | shah rukh   | katrina kaif    |
+| Bharath Ane nenu | Mahesh Babu | Kiara           |
+| Gruham           | Siddharth   | Andrea          |
+| K G F chapter 1  | Yash        | Srinithi Shetty |
+| The Villain      | Sudeep      | Amy             |
+| 2.0              | rajnikanth  | amy             |
++------------------+-------------+-----------------+
+
+### Display the count of thriller movies.
+select count(moivetype) from movie where moivetype like "%thriller%" or "%Thriller%";
++------------------+
+| count(moivetype) |
++------------------+
+|                5 |
++------------------+
+
+### Display the count of movies whose released before 15 march 2018.
+select count(moviename) from movie where releasedate < '2018-03-15';
++------------------+
+| count(moviename) |
++------------------+
+|               10 |
++------------------+
+
+### Display the release date of the movie name ‘Zero’.
+select releasedate from movie where moviename = 'Zero' or 'zero';
++-------------+
+| releasedate |
++-------------+
+| 2018-12-21  |
++-------------+
+
+### Display the actor name that acted with ‘Amy’.
+select heroname from movie where heroine = 'Amy' or 'amy';
++------------+
+| heroname   |
++------------+
+| Sudeep     |
+| rajnikanth |
++------------+
+
+### Display the Count of maximum movies released in a month of October.
+select count(moviename) from movie where month(releasedate) = '10';
++------------------+
+| count(moviename) |
++------------------+
+|                4 |
++------------------+
+
+### Display the movienames whose production id is same for different languages.
+select moviename from movie group by productionid;
++-----------------+
+| moviename       |
++-----------------+
+| hoilday         |
+| Badhaai Ho      |
+| Padmavaat       |
+| zero            |
+| The Villain     |
+| K G F chapter 1 |
+| Rangasthalam    |
+| Khaidi No. 150  |
+| bahubali        |
++-----------------+
+

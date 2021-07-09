@@ -1,0 +1,91 @@
+### Subquery ###
+_______SELECT______
+select productionname, address from productions
+where productionid IN (select productionid from movie where language = 'hindi' || 'Hindi');
++----------------------------+---------+
+| productionname             | address |
++----------------------------+---------+
+| Hari Om Entertainment      | Mumbai  |
+| Viacom 18 Studios          | Mumbai  |
+| Junglee Pictures           | Mumbai  |
+| Red Chillies Entertainment | Mumbai  |
++----------------------------+---------+
+
+
+select productionid, productionname, dateofstarted from productions
+where productionid IN (select productionid from movie where releasedate > '2018-01-01');
++--------------+----------------------------+---------------+
+| productionid | productionname             | dateofstarted |
++--------------+----------------------------+---------------+
+|         1854 | Junglee Pictures           |          2014 |
+|         1899 | Viacom 18 Studios          |          2008 |
+|         1988 | Red Chillies Entertainment |          2003 |
+|         2341 | CRM                        |          2017 |
+|         6773 | Hombale Films              |          1995 |
+|         7882 | DVV Entertainments         |          1993 |
+|         8892 | Lyca                       |          2014 |
++--------------+----------------------------+---------------+
+
+
+_______INSERT_______
+### Create newtable with same structure of oldtable
+create table tamil_movie like movie; 
+
+### insert inot newtable using oldtable Subquery
+insert into tamil_movie
+select * from movie
+where language = 'tamil';
+
+### Display table tamil_movie
+select * from tamil_movie;
++---------+-----------+------------+---------+-------------+----------+--------+------------+--------------+
+| movieid | moviename | heroname   | heroine | releasedate | language | length | moivetype  | Productionid |
++---------+-----------+------------+---------+-------------+----------+--------+------------+--------------+
+|     501 | 2.0       | rajnikanth | amy     | 2018-11-29  | tamil    |     20 | sceintific |         8892 |
+|     577 | aval      | sidharth   | andrea  | 2017-11-13  | tamil    |     14 | horror     |         1899 |
++---------+-----------+------------+---------+-------------+----------+--------+------------+--------------+
+
+### Create Viacom 18 Studios table
+create table 1899_movie like movie;
+
+### insert all 'Viacom 18 Studios' movies in 1899_movie table
+insert into 1899_movie
+select * from movie
+where productionid = 1899;
+
+### Display table 1899_movie
+select * from 1899_movie;
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+| movieid | moviename           | heroname      | heroine          | releasedate | language | length | moivetype      | Productionid |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+|     131 | Padmavaat           | Shahid Kapoor | Deepika Padukone | 2018-01-25  | Hindi    |     21 | Drama Epic     |         1899 |
+|     146 | Andhadhun           | Ayushmann     | Radika Apte      | 2018-10-05  | Hindi    |     16 | Crime Thriller |         1899 |
+|     188 | Rangoon             | Saif Ali Khan | Kangana          | 2017-02-12  | Hindi    |     15 | Drama          |         1899 |
+|     189 | The House Next Door | Siddharth     | Andrea           | 2017-11-10  | Hindi    |     14 | Horror         |         1899 |
+|     244 | Gruham              | Siddharth     | Andrea           | 2018-07-08  | Telugu   |     14 | Horror         |         1899 |
+|     577 | aval                | sidharth      | andrea           | 2017-11-13  | tamil    |     14 | horror         |         1899 |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+
+_______UPDATE_______
+### Create movie backup table (movie_bkp)
+create table movie_bkp like movie;
+
+### Insert all data of movie into movie_bkp table
+insert into movie_bkp
+select * from movie;
+
+### Update movie_bkp
+UPDATE movie_bkp
+SET releasedate='2008-01-01'
+WHERE productionid IN (select productionid from productions where dateofstarted = '2008');
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+| movieid | moviename           | heroname      | heroine          | releasedate | language | length | moivetype      | Productionid |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
+|     101 | hoilday             | akshay kumar  | sonakshi         | 2008-01-01  | hindi    |     15 | crime thriller |         1010 |
+|     131 | Padmavaat           | Shahid Kapoor | Deepika Padukone | 2008-01-01  | Hindi    |     21 | Drama Epic     |         1899 |
+|     146 | Andhadhun           | Ayushmann     | Radika Apte      | 2008-01-01  | Hindi    |     16 | Crime Thriller |         1899 |
+|     188 | Rangoon             | Saif Ali Khan | Kangana          | 2008-01-01  | Hindi    |     15 | Drama          |         1899 |
+|     189 | The House Next Door | Siddharth     | Andrea           | 2008-01-01  | Hindi    |     14 | Horror         |         1899 |
+|     244 | Gruham              | Siddharth     | Andrea           | 2008-01-01  | Telugu   |     14 | Horror         |         1899 |
+|     577 | aval                | sidharth      | andrea           | 2008-01-01  | tamil    |     14 | horror         |         1899 |
++---------+---------------------+---------------+------------------+-------------+----------+--------+----------------+--------------+
