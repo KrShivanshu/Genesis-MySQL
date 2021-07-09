@@ -124,18 +124,15 @@ select count(moviename) from movie where month(releasedate) = '10';
 +------------------+
 
 ### Display the movienames whose production id is same for different languages.
-select moviename from movie group by productionid;
-+-----------------+
-| moviename       |
-+-----------------+
-| hoilday         |
-| Badhaai Ho      |
-| Padmavaat       |
-| zero            |
-| The Villain     |
-| K G F chapter 1 |
-| Rangasthalam    |
-| Khaidi No. 150  |
-| bahubali        |
-+-----------------+
-
+select moviename from movie where productionid in (select productionid from movie group by language having count(productionid) > 1);
++----------------------+
+| moviename            |
++----------------------+
+| hoilday              |
+| bahubali             |
+| Maryada Ramanna      |
+| Khaidi No. 150       |
+| Anaganaga O Dheerudu |
+| K G F chapter 1      |
+| 2.0                  |
++----------------------+

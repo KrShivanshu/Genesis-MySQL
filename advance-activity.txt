@@ -1,0 +1,50 @@
+1. Write the query to display productionid, production name with total number movies produced by each.
+
+SELECT productions.productionid,productions.productionname, COUNT(movie.productionid) FROM productions
+LEFT JOIN movie ON productions.productionid = movie.productionid
+GROUP BY movie.productionid;
++--------------+----------------------------+---------------------------+
+| productionid | productionname             | COUNT(movie.productionid) |
++--------------+----------------------------+---------------------------+
+|         1010 | Hari Om Entertainment      |                         1 |
+|         1111 | STP                        |                         0 |
+|         1854 | Junglee Pictures           |                         1 |
+|         1899 | Viacom 18 Studios          |                         6 |
+|         1988 | Red Chillies Entertainment |                         1 |
+|         2341 | CRM                        |                         1 |
+|         6773 | Hombale Films              |                         1 |
+|         7882 | DVV Entertainments         |                         2 |
+|         8892 | Lyca                       |                         2 |
+|         9091 | Arkamediaworks             |                         3 |
++--------------+----------------------------+---------------------------+
+
+2. Write the query to display production name, owner name have produced more than 2 movies.
+
+3.
+Write the query to display production name, owner name have produced maximum movies
+
+4.
+Write the query to display the moviename, heroname and productionname acted in the producer name= ’Subaskaran’.
+
+5. 
+Write the query to display the moviename, heroname whose productionid ends with 82.
+
+6.
+Write the query to display the productionname, ownername who has not produced the movie.
+
+7. 
+Write the query to display the productionname, ownername who has not produced the ‘hindi’ movie.
+
+
+8.
+Write the query name to display the heroinename who acted in the different productions but not in same production id.
+
+Ans: Amy
+9.
+Write the query to display the heroname who acted in maximum languages.
+
+10.
+Write the query to display the production name, owner name who has produced movie for more languages.
+
+11.
+Write the query to display the productionname, producername who has not produced any movie.
