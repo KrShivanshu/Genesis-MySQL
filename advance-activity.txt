@@ -20,8 +20,22 @@ GROUP BY movie.productionid;
 
 2. Write the query to display production name, owner name have produced more than 2 movies.
 
-3.
-Write the query to display production name, owner name have produced maximum movies
+SELECT productions.productionname, ownername FROM productions
+LEFT JOIN movie ON productions.productionid = movie.productionid
+GROUP BY movie.productionid
+having COUNT(movie.productionid) >2;
++-------------------+-----------------+
+| productionname    | ownername       |
++-------------------+-----------------+
+| Viacom 18 Studios | Ajit Andhare    |
+| Arkamediaworks    | Shobu Yalagadda |
++-------------------+-----------------+
+
+3. Write the query to display production name, owner name have produced maximum movies
+
+
+
+
 
 4.
 Write the query to display the moviename, heroname and productionname acted in the producer name= ’Subaskaran’.
