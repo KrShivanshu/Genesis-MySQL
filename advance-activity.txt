@@ -34,31 +34,71 @@ having COUNT(movie.productionid) >2;
 3. Write the query to display production name, owner name have produced maximum movies
 
 
+4. Write the query to display the moviename, heroname and productionname acted in the producer name= ’Subaskaran’.
+
+SELECT moviename, heroname, productionname from movie
+left join productions on movie.productionid= productions.productionid
+where movie.productionid = (select productionid from productions where ownername = 'Subaskaran');
++----------------+-------------+----------------+
+| moviename      | heroname    | productionname |
++----------------+-------------+----------------+
+| Khaidi No. 150 | chiranjeevi | Lyca           |
+| 2.0            | rajnikanth  | Lyca           |
++----------------+-------------+----------------+
+
+5. Write the query to display the moviename, heroname whose productionid ends with 82.
+
+SELECT moviename, heroname from movie
+left join productions on movie.productionid= productions.productionid
+where movie.productionid = (select productionid from productions where productionid like "%82");
++------------------+-------------+
+| moviename        | heroname    |
++------------------+-------------+
+| Rangasthalam     | Ram Charan  |
+| Bharath Ane nenu | Mahesh Babu |
++------------------+-------------+
 
 
+6. Write the query to display the productionname, ownername who has not produced the movie.
 
-4.
-Write the query to display the moviename, heroname and productionname acted in the producer name= ’Subaskaran’.
+SELECT productionname, ownername FROM productions
+LEFT JOIN movie ON productions.productionid = movie.productionid
+GROUP BY movie.productionid
+having COUNT(movie.productionid) =0;
++----------------+-----------+
+| productionname | ownername |
++----------------+-----------+
+| STP            | Sree      |
++----------------+-----------+
 
-5. 
-Write the query to display the moviename, heroname whose productionid ends with 82.
-
-6.
-Write the query to display the productionname, ownername who has not produced the movie.
-
-7. 
-Write the query to display the productionname, ownername who has not produced the ‘hindi’ movie.
+7. Write the query to display the productionname, ownername who has not produced the ‘hindi’ movie.
 
 
-8.
-Write the query name to display the heroinename who acted in the different productions but not in same production id.
+8. Write the query name to display the heroinename who acted in the different productions but not in same production id.
 
-Ans: Amy
-9.
-Write the query to display the heroname who acted in maximum languages.
 
-10.
-Write the query to display the production name, owner name who has produced movie for more languages.
+9. Write the query to display the heroname who acted in maximum languages.
 
-11.
-Write the query to display the productionname, producername who has not produced any movie.
+10. Write the query to display the production name, owner name who has produced movie for more languages.
+
+select productionname,ownername from productions where productions.productionid in (select productionid from movie group by language having count(productionid) > 1);
++-----------------------+-----------------+
+| productionname        | ownername       |
++-----------------------+-----------------+
+| Hari Om Entertainment | Akshay Kumar    |
+| Hombale Films         | Vijay           |
+| Lyca                  | Subaskaran      |
+| Arkamediaworks        | Shobu Yalagadda |
++-----------------------+-----------------+
+
+11. Write the query to display the productionname, producername who has not produced any movie.
+
+SELECT productionname, ownername FROM productions
+LEFT JOIN movie ON productions.productionid = movie.productionid
+GROUP BY movie.productionid
+having COUNT(movie.productionid) =0;
++----------------+-----------+
+| productionname | ownername |
++----------------+-----------+
+| STP            | Sree      |
++----------------+-----------+
