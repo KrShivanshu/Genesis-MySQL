@@ -41,19 +41,6 @@ GROUP BY productionid
 order by count(productionid) desc
 LIMIT 1);
 
-
-
-
-SELECT itemCode , count(*) as MaxCount
-FROM OrderProcessing
-GROUP BY itemCode
-HAVING count(*) = 
--- count of most wanted item
-(select top 1 count(*) 
- from OrderProcessing 
- group by itemCode 
- order by count(*) desc)
-
 4. Write the query to display the moviename, heroname and productionname acted in the producer name= ’Subaskaran’.
 
 SELECT moviename, heroname, productionname from movie
