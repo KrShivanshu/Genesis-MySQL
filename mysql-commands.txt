@@ -27,6 +27,14 @@ insert into movie values
 (267,	'Anaganaga O Dheerudu',	'Siddharth',	'Shruthi',	'2014-01-11',	'Telugu',	16,	'Fantasy',	9091);
 
 
+-----------------------------------------------------
+Update a row value in a table
+-----------------------------------------------------
+update movie
+set language = 'Telugu'
+where movieid = 201;
+
+
 
 
 
