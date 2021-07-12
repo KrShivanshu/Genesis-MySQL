@@ -131,3 +131,82 @@ call max_movie_produced()$$
 +-------------------+--------------+
 | Viacom 18 Studios | Ajit Andhare |
 +-------------------+--------------+
+
+-----------------------------------------------------
+Display movie category based on length
+-----------------------------------------------------
+delimiter $$
+create procedure movie_category()
+begin
+select movieid, moviename,language, if(length>=18,'Long','Short') as Category
+from movie;
+end$$
+
+call movie_category()$$
++---------+----------------------+----------+----------+
+| movieid | moviename            | language | Category |
++---------+----------------------+----------+----------+
+|     101 | hoilday              | hindi    | Short    |
+|     131 | Padmavaat            | Hindi    | Long     |
+|     136 | Badhaai Ho           | Hindi    | Short    |
+|     146 | Andhadhun            | Hindi    | Short    |
+|     151 | zero                 | hindi    | Short    |
+|     188 | Rangoon              | Hindi    | Short    |
+|     189 | The House Next Door  | Hindi    | Short    |
+|     201 | bahubali             | telegu   | Long     |
+|     206 | Maryada Ramanna      | Telugu   | Long     |
+|     211 | Khaidi No. 150       | Telugu   | Long     |
+|     224 | Rangasthalam         | Telugu   | Short    |
+|     231 | Bharath Ane nenu     | Telugu   | Short    |
+|     244 | Gruham               | Telugu   | Short    |
+|     267 | Anaganaga O Dheerudu | Telugu   | Short    |
+|     337 | K G F chapter 1      | Kannada  | Long     |
+|     441 | The Villain          | Kannada  | Short    |
+|     501 | 2.0                  | tamil    | Long     |
+|     577 | aval                 | tamil    | Short    |
++---------+----------------------+----------+----------+
+
+-----------------------------------------------------
+Display movie industry name bsaed on language
+-----------------------------------------------------
+delimiter $$
+create procedure movie_industry()
+begin
+select moviename,heroine,heroname,
+case
+    when language='Hindi' then 'Bollywood'
+    when language='Telugu' then 'Tollywood'
+    when language='Tamil' then 'Kollywood'
+    when language='Kannada' then 'Sandalwood'
+end as industry
+from movie;
+end $$
+
+call movie_industry()$$
++----------------------+------------------+---------------+------------+
+| moviename            | heroine          | heroname      | industry   |
++----------------------+------------------+---------------+------------+
+| hoilday              | sonakshi         | akshay kumar  | Bollywood  |
+| Padmavaat            | Deepika Padukone | Shahid Kapoor | Bollywood  |
+| Badhaai Ho           | Neena            | Ayushmann     | Bollywood  |
+| Andhadhun            | Radika Apte      | Ayushmann     | Bollywood  |
+| zero                 | katrina kaif     | shah rukh     | Bollywood  |
+| Rangoon              | Kangana          | Saif Ali Khan | Bollywood  |
+| The House Next Door  | Andrea           | Siddharth     | Bollywood  |
+| bahubali             | tamannah         | prabhas       | Tollywood  |
+| Maryada Ramanna      | Saloni           | Sunil         | Tollywood  |
+| Khaidi No. 150       | Kajal            | chiranjeevi   | Tollywood  |
+| Rangasthalam         | Samatha          | Ram Charan    | Tollywood  |
+| Bharath Ane nenu     | Kiara            | Mahesh Babu   | Tollywood  |
+| Gruham               | Andrea           | Siddharth     | Tollywood  |
+| Anaganaga O Dheerudu | Shruthi          | Siddharth     | Tollywood  |
+| K G F chapter 1      | Srinithi Shetty  | Yash          | Sandalwood |
+| The Villain          | Amy              | Sudeep        | Sandalwood |
+| 2.0                  | amy              | rajnikanth    | Kollywood  |
+| aval                 | andrea           | sidharth      | Kollywood  |
++----------------------+------------------+---------------+------------+
+
+-----------------------------------------------------
+Drop a procedure
+-----------------------------------------------------
+drop procedure procedure_name $$
